@@ -1,6 +1,6 @@
 <?php
 
-class Model {
+class Product {
 
     public function getData() {
         $dsn = "mysql:host=localhost;dbname=product_db;charset=utf8;port=3306";
