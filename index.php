@@ -1,10 +1,24 @@
 <?php
 
-require "src/controllers/products.php";
-
-$controller = new Products;
-
+$controller = $_GET["controller"];
 $action = $_GET["action"];
+
+switch ($controller) {
+
+    case "products":
+        require "src/controllers/products.php";
+        $controller = new Products;
+        break;
+
+    case "home":
+        require "src/controllers/home.php";
+        $controller = new Home;
+        break;
+    
+    default:
+        echo "Controller not found!";
+        die();
+}
 
 switch ($action) {
     case "index":
@@ -15,4 +29,5 @@ switch ($action) {
         break;
     default:
         echo "Action not found!";
+        die();
 }
