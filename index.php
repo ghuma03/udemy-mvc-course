@@ -1,6 +1,7 @@
 <?php
 
-exit("Hello from index.php");
+print_r($_SERVER["REQUEST_URI"]);
+exit;
 
 $controller = $_GET["controller"];
 $action = $_GET["action"];
