@@ -23,7 +23,6 @@ class Router {
             echo $pattern . "\n" . $route["path"] . "\n";
 
             $this->getPatternFromRoutePath($route["path"]);
-            die();
             
             if (preg_match($pattern, $path, $matches)) {
 
@@ -52,8 +51,9 @@ class Router {
 
         }, $segments);
 
-        print_r($segments);
+        $pattern = "#^" . implode("/", $segments) . "$#";
 
+        echo $pattern . "\n";
     }
 
 }
