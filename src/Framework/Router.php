@@ -16,13 +16,12 @@ class Router {
 
     public function match(string $path): array|bool {
 
+        $path = urldecode($path);
         $path = trim($path, "/");
 
         foreach ($this->routes as $route) {
 
             $pattern = $this->getPatternFromRoutePath($route["path"]);
-
-            echo $pattern . "\n";
             
             if (preg_match($pattern, $path, $matches)) {
 
@@ -57,6 +56,6 @@ class Router {
 
         }, $segments);
 
-        return "#^" . implode("/", $segments) . "$#";
+        return "#^" . implode("/", $segments) . "$#iu";
     }
 }
