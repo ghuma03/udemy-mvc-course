@@ -6,15 +6,15 @@ spl_autoload_register(function($class_name) {
 
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
-// require "src/router.php";
-
 $router = new Framework\Router;
     $router->add("/{controller}/{action}");
+    $router->add("/{controller}/{id}/{action}");
     $router->add("/home/index"          , array("controller" => "home"      , "action" => "index"));
     $router->add("/products"            , array("controller" => "products"  , "action" => "index"));
     $router->add("/"                    , array("controller" => "home"      , "action" => "index"));
 
 $params = $router->match($path);
+print_r($params);
 
 if ($params === false) {
     exit("No route matched!");

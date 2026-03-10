@@ -21,6 +21,8 @@ class Router {
         foreach ($this->routes as $route) {
 
             $pattern = $this->getPatternFromRoutePath($route["path"]);
+
+            echo $pattern . "\n";
             
             if (preg_match($pattern, $path, $matches)) {
 
@@ -44,7 +46,7 @@ class Router {
         $segments = array_map(function(string $segment):string {
 
             if (preg_match("#^\{([a-z][a-z0-9]*)\}$#", $segment, $matches)) {
-                $segment = "(?<".$matches[1].">[a-z]+)";
+                $segment = "(?<".$matches[1].">[^/]*)";
             }
             
             return $segment;
@@ -53,5 +55,4 @@ class Router {
 
         return "#^" . implode("/", $segments) . "$#";
     }
-
 }
