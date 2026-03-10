@@ -1,4 +1,3 @@
-<pre>
 <?php
 
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
@@ -11,13 +10,13 @@ $router = new Router();
     $router->add("/"            , array("controller" => "home"      , "action" => "index"));
 
 $params = $router->match($path);
-var_dump($params);
-die();
 
-$segments = explode("/", $path);
+if ($params === false) {
+    exit("No route matched!");
+}
 
-$controller = $segments[1];
-$action = $segments[2];
+$controller = $params["controller"];
+$action = $params["action"];
 
 require "src/controllers/$controller.php";
 
