@@ -16,6 +16,12 @@ class Router {
 
     public function match(string $path): array|bool {
 
+        $pattern = "#^/[a-z]+/[a-z]+$#";
+        
+        if (preg_match($pattern, $path)) {
+            exit("Match");
+        }
+
         foreach ($this->routes as $route) {
 
             if ($route["path"] == $path) {
