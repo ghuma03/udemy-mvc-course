@@ -2,6 +2,8 @@
 
 namespace Framework;
 
+use ReflectionMethod;
+
 class Dispatcher {
 
     private Router $router;
@@ -22,7 +24,25 @@ class Dispatcher {
         $action = $params["action"];
 
         $controller_object = new $controller;
-            $controller_object->$action();
+
+        $args = $this->getActionArguments($controller, $action, $params);
+
+        $controller_object->$action(...$args);
+    }
+
+    private function getActionArguments(string $controller, string $action, array $params): array {
+
+        $method = new ReflectionMethod($controller, $action);
+
+        $args = array();
+        foreach ($method->getParameters() as $parameter) {
+
+            $name = $parameter->getName();
+
+            $args[$name] = $params[$name];
+        }
+
+        return $args;
     }
 
 }

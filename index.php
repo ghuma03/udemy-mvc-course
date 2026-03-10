@@ -7,6 +7,7 @@ spl_autoload_register(function($class_name) {
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 $router = new Framework\Router;
+    $router->add("/{title}/{id:\d+}/{page:\d+}", array("controller" => "products", "action" => "showPage"));
     $router->add("/product/{slug:[\w-]+}", array("controller" => "products", "action" => "show"));
     $router->add("/{controller}/{id:\d+}/{action}");
     $router->add("/home/index", array("controller" => "home"      , "action" => "index"));
