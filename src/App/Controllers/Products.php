@@ -8,16 +8,16 @@ use Framework\Viewer;
 class Products {
 
     private Viewer $viewer;
+    private Product $model;
 
-    public function __construct(Viewer $viewer) {
+    public function __construct(Viewer $viewer, Product $model) {
         $this->viewer = $viewer;
+        $this->model = $model;
     }
 
     public function index() {
 
-        $model = new Product;
-
-        $products = $model->getData();
+        $products = $this->model->getData();
 
         echo $this->viewer->render("shared/header.php", array("title" => "Products"));
         echo $this->viewer->render("Products/index.php", array("products" => $products));
