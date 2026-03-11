@@ -20,8 +20,10 @@ class Dispatcher {
             exit("No route matched!");
         }
 
-        $controller = "App\Controllers\\" . ucwords($params["controller"]);
-        $action = $params["action"];
+        $this->getActionName($params);
+
+        $controller = $this->getControllerName($params);
+        $action = $this->getActionName($params);
 
         $controller_object = new $controller;
 
@@ -43,6 +45,27 @@ class Dispatcher {
         }
 
         return $args;
+    }
+
+    private function getControllerName(array $params): string {
+
+        $controller = $params["controller"];
+            $controller = strtolower($controller);
+            $controller = ucwords($controller, "-");
+            $controller = str_replace("-", "", $controller);
+
+        return "App\Controllers\\" . $controller;
+    }
+
+    private function getActionName(array $params): string {
+
+        $action = $params["action"];
+            $action = strtolower($action);
+            $action = ucwords($action, "-");
+            $action = str_replace("-", "", $action);
+            $action = lcfirst($action);
+
+        return $action;
     }
 
 }
