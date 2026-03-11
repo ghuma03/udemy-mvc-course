@@ -22,22 +22,9 @@ class Dispatcher {
         }
 
         $controller = $this->getControllerName($params);
+        $controller_object = $this->getObject($controller);
+
         $action = $this->getActionName($params);
-
-        $reflector = new ReflectionClass($controller);
-        $constructor = $reflector->getConstructor();
-
-        $dependencies = array();
-        
-        if ($constructor !== null) {
-
-            foreach ($constructor->getParameters() as $parameter) {
-                $dependencies[] = new ((string) $parameter->getType());
-            }
-        }
-        
-        $controller_object = new $controller(...$dependencies);
-
         $args = $this->getActionArguments($controller, $action, $params);
 
         $controller_object->$action(...$args);
@@ -82,6 +69,24 @@ class Dispatcher {
             $action = lcfirst($action);
 
         return $action;
+    }
+
+    private function getObject(string $class_name): object {
+
+        $reflector = new ReflectionClass($class_name);
+        $constructor = $reflector->getConstructor();
+
+        if ($constructor === null) {
+            return new $class_name;
+        }
+
+        $dependencies = array();
+        foreach ($constructor->getParameters() as $parameter) {
+            $type = (string) $parameter->getType();
+            $dependencies[] = $this->getObject($type);
+        }
+        
+        return new $class_name(...$dependencies);
     }
 
 }
