@@ -3,7 +3,7 @@
 namespace Framework;
 
 use ReflectionMethod;
-use App\Models\Product;
+use ReflectionClass;
 
 class Dispatcher {
 
@@ -21,12 +21,22 @@ class Dispatcher {
             exit("No route matched!");
         }
 
-        $this->getActionName($params);
-
         $controller = $this->getControllerName($params);
         $action = $this->getActionName($params);
 
-        $controller_object = new $controller(new Viewer, new Product);
+        $reflector = new ReflectionClass($controller);
+        $constructor = $reflector->getConstructor();
+
+        $dependencies = array();
+        
+        if ($constructor !== null) {
+
+            foreach ($constructor->getParameters() as $parameter) {
+                $dependencies[] = new ((string) $parameter->getType());
+            }
+        }
+        
+        $controller_object = new $controller(...$dependencies);
 
         $args = $this->getActionArguments($controller, $action, $params);
 
