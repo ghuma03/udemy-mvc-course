@@ -14,12 +14,12 @@ class Products {
         $products = $model->getData();
 
         $viewer = new Viewer;
-        echo $viewer->render("products_index.php", array("products" => $products));
+        echo $viewer->render("Products/index.php", array("products" => $products));
     }
 
     public function show(string $id) {
-        var_dump($id);
-        require "views/products_show.php";
+        $viewer = new Viewer;
+        echo $viewer->render("Products/show.php", array("id" => $id));
     }
 
     public function showPage(string $title, string $id, string $page) {
