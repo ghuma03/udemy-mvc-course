@@ -7,10 +7,15 @@ use App\Database;
 
 class Product {
 
+    private Database $database;
+
+    public function __construct(Database $database) {
+        $this->database = $database;
+    }
+
     public function getData() {
 
-        $database = new Database;
-        $pdo = $database->getConnection();
+        $pdo = $this->database->getConnection();
 
         $stmt = $pdo->query("SELECT * FROM product");
 
