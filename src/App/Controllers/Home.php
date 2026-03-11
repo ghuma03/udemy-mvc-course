@@ -8,7 +8,7 @@ class Home {
 
     public function index() {
         $viewer = new Viewer;
-        echo $viewer->render("shared/header.php");
+        echo $viewer->render("shared/header.php", array("title" => "Home"));
         echo $viewer->render("Home/index.php");
     }
 
