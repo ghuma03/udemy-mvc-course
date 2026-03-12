@@ -2,9 +2,20 @@
 
 declare(strict_types = 1);
 
-$show_errors = true;
+$show_errors = false;
 
-ini_set("display_errors", ($show_errors)? "1":"0");
+if ($show_errors === true) {
+    ini_set("display_errors", "1");
+}
+else {
+
+    ini_set("display_errors", "0");
+    ini_set("log_errors"    , "1");
+
+    require "views/500.php";
+}
+
+
 
 spl_autoload_register(function($class_name) {
     require "src/".str_replace("\\", "/", $class_name).".php";
