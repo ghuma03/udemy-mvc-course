@@ -16,5 +16,7 @@ $router = new Framework\Router;
     $router->add("/", array("controller" => "home"      , "action" => "index"));
     $router->add("/{controller}/{action}");
 
-$dispatcher = new Framework\Dispatcher($router);
+$container = new Framework\Container;
+
+$dispatcher = new Framework\Dispatcher($router, $container);
     $dispatcher->handle($path);
