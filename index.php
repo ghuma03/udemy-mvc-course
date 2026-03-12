@@ -16,7 +16,10 @@ $router = new Framework\Router;
     $router->add("/", array("controller" => "home"      , "action" => "index"));
     $router->add("/{controller}/{action}");
 
+$database = new App\Database("localhost", "product_db", "product_db_user", "secret");
+
 $container = new Framework\Container;
+    $container->set(App\Database::class, $database);
 
 $dispatcher = new Framework\Dispatcher($router, $container);
     $dispatcher->handle($path);
