@@ -2,6 +2,10 @@
 
 declare(strict_types = 1);
 
+$show_errors = true;
+
+ini_set("display_errors", ($show_errors)? "1":"0");
+
 spl_autoload_register(function($class_name) {
     require "src/".str_replace("\\", "/", $class_name).".php";
 });
