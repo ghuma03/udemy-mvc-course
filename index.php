@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 spl_autoload_register(function($class_name) {
     require "src/".str_replace("\\", "/", $class_name).".php";
 });
