@@ -8,6 +8,10 @@ spl_autoload_register(function($class_name) {
 
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
+if ($path === false) {
+    throw new UnexpectedValueException("Malformed URL: '{$_SERVER["REQUEST_URI"]}'");
+}
+
 $router = new Framework\Router;
     $router->add("/admin/{controller}/{action}", array("namespace" => "Admin"));
     $router->add("/{title}/{id:\d+}/{page:\d+}", array("controller" => "products", "action" => "showPage"));
