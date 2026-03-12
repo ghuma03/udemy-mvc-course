@@ -2,20 +2,23 @@
 
 declare(strict_types = 1);
 
-$show_errors = false;
+set_exception_handler(function(Throwable $exception) {
 
-if ($show_errors === true) {
-    ini_set("display_errors", "1");
-}
-else {
+    $show_errors = true;
 
-    ini_set("display_errors", "0");
-    ini_set("log_errors"    , "1");
+    if ($show_errors === true) {
+        ini_set("display_errors", "1");
+    }
+    else {
 
-    require "views/500.php";
-}
+        ini_set("display_errors", "0");
+        ini_set("log_errors"    , "1");
 
+        require "views/500.php";
+    }
 
+    throw $exception;
+});
 
 spl_autoload_register(function($class_name) {
     require "src/".str_replace("\\", "/", $class_name).".php";
