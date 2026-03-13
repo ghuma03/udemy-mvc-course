@@ -8,6 +8,13 @@ set_error_handler(function(int $errno, string $errstr, string $errfile, int $err
 
 set_exception_handler(function(Throwable $exception) {
 
+    if ($exception instanceof Framework\Exceptions\PageNotFoundException) {
+        http_response_code(404);
+    }
+    else {
+        http_response_code(500);
+    }
+
     $show_errors = true;
 
     if ($show_errors === true) {
