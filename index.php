@@ -2,9 +2,11 @@
 
 declare(strict_types = 1);
 
-set_error_handler(function(int $errno, string $errstr, string $errfile, int $errline): bool {
-    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+spl_autoload_register(function($class_name) {
+    require "src/".str_replace("\\", "/", $class_name).".php";
 });
+
+set_error_handler("Framework\ErrorHandler::handleError");
 
 set_exception_handler(function(Throwable $exception) {
 
@@ -17,7 +19,7 @@ set_exception_handler(function(Throwable $exception) {
         $template = "500.php";
     }
 
-    $show_errors = false;
+    $show_errors = true;
 
     if ($show_errors === true) {
         ini_set("display_errors", "1");
@@ -31,10 +33,6 @@ set_exception_handler(function(Throwable $exception) {
     }
 
     throw $exception;
-});
-
-spl_autoload_register(function($class_name) {
-    require "src/".str_replace("\\", "/", $class_name).".php";
 });
 
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
