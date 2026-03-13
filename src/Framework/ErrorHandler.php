@@ -25,9 +25,7 @@ class ErrorHandler {
             $template = "500.php";
         }
 
-        $show_errors = true;
-
-        if ($show_errors === true) {
+        if ($_ENV["SHOW_ERRORS"]) {
             ini_set("display_errors", "1");
         }
         else {
