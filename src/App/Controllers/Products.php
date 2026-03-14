@@ -54,7 +54,7 @@ class Products {
 
         $data = array(
             "name" => $_POST["name"],
-            "description" => $_POST["description"]
+            "description" => (empty($_POST["description"]))? null : $_POST["description"]
         );
 
         var_dump($this->model->insert($data));
