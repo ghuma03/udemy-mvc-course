@@ -10,7 +10,21 @@ use App\Database;
 abstract class Model {
 
     private Database $database;
+
     protected $table;
+    protected array $errors = array();
+
+    protected function validate(array $data): void {
+        
+    }
+
+    protected function addError(string $field, string $message):void {
+        $this->errors[$field] = $message;
+    }
+
+    public function getErrors(): array {
+        return $this->errors;
+    }
 
     private function getTable(): string {
 
@@ -53,9 +67,12 @@ abstract class Model {
 
     public function insert($data): bool {
 
-        if ( ! $this->validate($data) ) {
+        // return empty($this->errors);
+
+        $this->validate($data);
+        if ( ! empty($this->errors) ) {
             return false;
-        }        
+        }
 
         $columns = implode(", ", array_keys($data));
         $placeholders = implode(", ", array_fill(0, count($data), "?"));
