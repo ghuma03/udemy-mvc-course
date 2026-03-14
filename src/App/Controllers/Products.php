@@ -45,4 +45,18 @@ class Products {
         die();
     }
 
+    public function new() {
+        echo $this->viewer->render("shared/header.php", array("title" => "New Product"));
+        echo $this->viewer->render("Products/new.php");
+    }
+
+    public function create() {
+
+        $data = array(
+            "name" => $_POST["name"],
+            "description" => $_POST["description"]
+        );
+
+        var_dump($this->model->insert($data));
+    }
 }
