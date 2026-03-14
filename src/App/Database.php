@@ -13,6 +13,8 @@ class Database {
     private $user;
     private $password;
 
+    private ?PDO $pdo = null;
+
     public function __construct(string $host, string $name, string $user, string $password) {
 
         $this->host = $host;
@@ -23,8 +25,11 @@ class Database {
 
     public function getConnection(): PDO {
 
-        $dsn = "mysql:host={$this->host};dbname={$this->name};charset=utf8;port=3306";
+        if ($this->pdo === null ) {
+            $dsn = "mysql:host={$this->host};dbname={$this->name};charset=utf8;port=3306";
+            $this->pdo = new PDO($dsn, $this->user, $this->password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        }
 
-        return new PDO($dsn, $this->user, $this->password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        return $this->pdo;
     }
 }
