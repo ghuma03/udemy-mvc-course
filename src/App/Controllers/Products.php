@@ -58,7 +58,8 @@ class Products {
         );
 
         if ($this->model->insert($data)) {
-            echo "Record saved! ID: {$this->model->getInsertID()}";
+            header("Location:/products/{$this->model->getInsertID()}/show");
+            exit;
         }
         else {
 
