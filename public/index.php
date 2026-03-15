@@ -24,4 +24,4 @@ $router = require ROOT_FOLDER . "/config/routes.php";
 $container = require ROOT_FOLDER . "/config/services.php";
 
 $dispatcher = new Framework\Dispatcher($router, $container);
-    $dispatcher->handle($path);
+    $dispatcher->handle($path, $_SERVER["REQUEST_METHOD"]);

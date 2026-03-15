@@ -17,7 +17,6 @@ class Products {
         $this->viewer = $viewer;
         $this->model = $model;
     }
-
     public function index() {
 
         $products = $this->model->getData();
@@ -107,13 +106,17 @@ class Products {
 
         $product = $this->getProduct($id);
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $this->model->delete($id);
-            header("Location: /products/index");
-            exit;
-        }
-
         echo $this->viewer->render("shared/header.php", array("title" => "Delete product"));
         echo $this->viewer->render("Products/delete.php", array("product" => $product));
+    }
+
+    public function destroy(string $id) {
+
+        $product = $this->getProduct($id);
+
+        $this->model->delete($id);
+        
+        header("Location: /products/index");
+        exit;
     }
 }
