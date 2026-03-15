@@ -28,11 +28,7 @@ class Products {
 
     public function show(string $id) {
 
-        $product = $this->model->find($id);
-
-        if ($product === false) {
-            throw new PageNotFoundException("Product not found");
-        }
+        $product = $this->getProduct($id);
 
         echo $this->viewer->render("shared/header.php", array("title" => "Product"));
         echo $this->viewer->render("Products/show.php", array("product" => $product));
@@ -40,11 +36,7 @@ class Products {
 
     public function edit(string $id) {
 
-        $product = $this->model->find($id);
-
-        if ($product === false) {
-            throw new PageNotFoundException("Product not found");
-        }
+        $product = $this->getProduct($id);
 
         echo $this->viewer->render("shared/header.php", array("title" => "Edit Product"));
         echo $this->viewer->render("Products/edit.php", array("product" => $product));
@@ -83,11 +75,7 @@ class Products {
 
     public function update(string $id) {
 
-        $product = $this->model->find($id);
-
-        if ($product === false) {
-            throw new PageNotFoundException("Product not found");
-        }
+        $product = $this->getProduct($id);
 
         $product["name"] = $_POST["name"];
         $product["description"] = (empty($_POST["description"]))? null : $_POST["description"];
@@ -102,5 +90,30 @@ class Products {
             echo $this->viewer->render("Products/edit.php", array("errors" => $this->model->getErrors(), "product" => $product));
 
         }
+    }
+
+    private function getProduct(string $id): array {
+
+        $product = $this->model->find($id);
+
+        if ($product === false) {
+            throw new PageNotFoundException("Product not found");
+        }
+
+        return $product;
+    }
+
+    public function delete(string $id) {
+
+        $product = $this->getProduct($id);
+
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $this->model->delete($id);
+            header("Location: /products/index");
+            exit;
+        }
+
+        echo $this->viewer->render("shared/header.php", array("title" => "Delete product"));
+        echo $this->viewer->render("Products/delete.php", array("product" => $product));
     }
 }
