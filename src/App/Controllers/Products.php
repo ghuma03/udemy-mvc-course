@@ -34,8 +34,20 @@ class Products {
             throw new PageNotFoundException("Product not found");
         }
 
-        echo $this->viewer->render("shared/header.php", array("title" => "Products"));
+        echo $this->viewer->render("shared/header.php", array("title" => "Product"));
         echo $this->viewer->render("Products/show.php", array("product" => $product));
+    }
+
+    public function edit(string $id) {
+
+        $product = $this->model->find($id);
+
+        if ($product === false) {
+            throw new PageNotFoundException("Product not found");
+        }
+
+        echo $this->viewer->render("shared/header.php", array("title" => "Edit Product"));
+        echo $this->viewer->render("Products/edit.php", array("product" => $product));
     }
 
     public function showPage(string $title, string $id, string $page) {
