@@ -14,6 +14,16 @@ abstract class Model {
     protected $table;
     protected array $errors = array();
 
+    public function update(string $id, array $data) {
+
+        $this->validate($data);
+        if ( ! empty($this->errors) ) {
+            return false;
+        }
+
+        return true;
+    }
+
     protected function validate(array $data): void {}
 
     public function getInsertID(): string {
@@ -69,8 +79,6 @@ abstract class Model {
     }
 
     public function insert($data): bool {
-
-        // return empty($this->errors);
 
         $this->validate($data);
         if ( ! empty($this->errors) ) {

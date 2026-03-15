@@ -1,6 +1,6 @@
 <h1>Edit product</h1>
 
-<form method="post" action="/products/update/<?= $product["id"] ?>/update">
+<form method="post" action="/products/<?= $product["id"] ?>/update">
 
     <?php require "form.php" ?>
 

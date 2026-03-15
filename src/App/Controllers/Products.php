@@ -80,4 +80,29 @@ class Products {
 
         }
     }
+
+    public function update(string $id) {
+
+        $product = $this->model->find($id);
+
+        if ($product === false) {
+            throw new PageNotFoundException("Product not found");
+        }
+
+        $data = array(
+            "name" => $_POST["name"],
+            "description" => (empty($_POST["description"]))? null : $_POST["description"]
+        );
+
+        if ($this->model->update($id, $data)) {
+            header("Location:/products/{$id}/show");
+            exit;
+        }
+        else {
+
+            echo $this->viewer->render("shared/header.php", array("title" => "Edit Product"));
+            echo $this->viewer->render("Products/edit.php", array("errors" => $this->model->getErrors(), "product" => $product));
+
+        }
+    }
 }
