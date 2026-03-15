@@ -21,7 +21,38 @@ abstract class Model {
             return false;
         }
 
-        return true;
+        $sql = "UPDATE {$this->getTable()} ";
+
+        unset($data["id"]);
+        $assignments = array_keys($data);
+
+        array_walk($assignments, function(&$value) {
+            $value = "$value = ?";
+        });
+
+        $sql .= " SET " . implode(", ", $assignments) . " WHERE id = ?";
+
+        $conn = $this->database->getConnection();
+
+        $stmt = $conn->prepare($sql);
+
+        $i = 1;
+        foreach ($data as $value) {
+
+            $type = match(gettype($value)) {
+                "boolean" => PDO::PARAM_BOOL,
+                "integer" => PDO::PARAM_INT,
+                "NULL" => PDO::PARAM_NULL,
+                default => PDO::PARAM_STR
+            };
+
+            $stmt->bindValue($i, $value, $type);
+            $i++;
+        }
+
+        $stmt->bindValue($i, $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
     }
 
     protected function validate(array $data): void {}
@@ -107,8 +138,6 @@ abstract class Model {
             $stmt->bindValue($i, $value, $type);
             $i++;
         }
-            
-            $stmt->bindValue(2, $data["description"], PDO::PARAM_STR);
 
         return $stmt->execute();
     }
