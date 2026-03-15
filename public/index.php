@@ -18,5 +18,7 @@ $router = require ROOT_FOLDER . "/config/routes.php";
 $container = require ROOT_FOLDER . "/config/services.php";
 
 $dispatcher = new Framework\Dispatcher($router, $container);
-    $request = new Framework\Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"]);
-    $dispatcher->handle($request);
+
+$request = Framework\Request::createFromGlobals();
+
+$dispatcher->handle($request);
