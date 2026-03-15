@@ -23,7 +23,7 @@ class Products {
         $products = $this->model->getData();
 
         echo $this->viewer->render("shared/header.php", array("title" => "Products"));
-        echo $this->viewer->render("Products/index.php", array("products" => $products));
+        echo $this->viewer->render("Products/index.php", array("products" => $products, "total" => $this->model->getTotal()));
     }
 
     public function show(string $id) {

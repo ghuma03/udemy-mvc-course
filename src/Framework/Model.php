@@ -9,8 +9,7 @@ use App\Database;
 
 abstract class Model {
 
-    private Database $database;
-
+    protected Database $database;
     protected $table;
     protected array $errors = array();
 
