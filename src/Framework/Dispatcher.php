@@ -28,9 +28,10 @@ class Dispatcher {
         }
 
         $controller = $this->getControllerName($params);
-        
+
         $controller_object = $this->container->get($controller);
             $controller_object->setRequest($request);
+            $controller_object->setViewer($this->container->get(Viewer::class));
 
         $action = $this->getActionName($params);
         $args = $this->getActionArguments($controller, $action, $params);

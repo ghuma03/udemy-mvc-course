@@ -7,20 +7,13 @@ namespace App\Controllers;
 use App\Models\Product;
 use Framework\Viewer;
 use Framework\Exceptions\PageNotFoundException;
-use Framework\Request;
+use Framework\Controller;
 
-class Products {
+class Products extends Controller {
 
-    private Viewer $viewer;
     private Product $model;
-    private Request $request;
 
-    public function setRequest(Request $request): void {
-        $this->request = $request;
-    }
-
-    public function __construct(Viewer $viewer, Product $model) {
-        $this->viewer = $viewer;
+    public function __construct(Product $model) {
         $this->model = $model;
     }
     public function index() {

@@ -5,14 +5,9 @@ declare(strict_types = 1);
 namespace App\Controllers;
 
 use Framework\Viewer;
+use Framework\Controller;
 
-class Home {
-
-    private Viewer $viewer;
-
-    public function __construct(Viewer $viewer) {
-        $this->viewer = $viewer;
-    }
+class Home extends Controller {
 
     public function index() {
         echo $this->viewer->render("shared/header.php", array("title" => "Home"));
