@@ -19,8 +19,8 @@ class Products extends Controller {
 
         $products = $this->model->getData();
 
-        echo $this->viewer->render("shared/header.php", array("title" => "Products"));
-        echo $this->viewer->render("Products/index.php", array("products" => $products, "total" => $this->model->getTotal()));
+        echo $this->viewer->render("Products/index.mvc.php",
+                                    array("title" => "Products", "products" => $products, "total" => $this->model->getTotal()));
     }
 
     public function show(string $id) {
