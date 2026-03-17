@@ -31,7 +31,7 @@ class Dispatcher {
 
         $controller_object = $this->container->get($controller);
             $controller_object->setRequest($request);
-            $controller_object->setViewer($this->container->get(PHPTemplateViewer::class));
+            $controller_object->setViewer($this->container->get(TemplateViewerInterface::class));
 
         $action = $this->getActionName($params);
         $args = $this->getActionArguments($controller, $action, $params);
