@@ -19,16 +19,14 @@ class Products extends Controller {
 
         $products = $this->model->getData();
 
-        echo $this->viewer->render("Products/index.mvc.php",
-                                    array("title" => "Products", "products" => $products, "total" => $this->model->getTotal()));
+        echo $this->viewer->render("Products/index.mvc.php", array("products" => $products, "total" => $this->model->getTotal()));
     }
 
     public function show(string $id) {
 
         $product = $this->getProduct($id);
 
-        echo $this->viewer->render("shared/header.php", array("title" => "Product"));
-        echo $this->viewer->render("Products/show.php", array("product" => $product));
+        echo $this->viewer->render("Products/show.mvc.php", array("product" => $product));
     }
 
     public function edit(string $id) {
