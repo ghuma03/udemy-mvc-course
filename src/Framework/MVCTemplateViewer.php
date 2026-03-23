@@ -17,8 +17,8 @@ class MVCTemplateViewer implements TemplateViewerInterface {
             $base = file_get_contents($views_dir.$matches["template"]);
 
             $blocks = $this->getBLocks($code);
-            print_r($blocks);
-            exit;
+
+            $code = $this->replaceYields($base, $blocks);
         }
 
         $code = $this->replaceVariables($code);
@@ -49,5 +49,22 @@ class MVCTemplateViewer implements TemplateViewerInterface {
         }
 
         return $blocks;
+    }
+
+    private function replaceYields(string $code, array $blocks): string {
+
+        preg_match_all("#{% yield (?<name>\w+) %}#", $code, $matches, PREG_SET_ORDER);
+
+        foreach ($matches as $matches) {
+
+            $name = $matches["name"];
+
+            $block = $blocks[$name];
+
+            $code = preg_replace("#{% yield $name %}#", $block, $code);
+
+        }
+
+        return $code;
     }
 }
