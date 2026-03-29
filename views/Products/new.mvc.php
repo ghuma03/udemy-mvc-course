@@ -8,7 +8,7 @@
 
     <form method="post" action="/products/create">
 
-        <?php require "../views/Products/form.php" ?>
+        <?php require "../views/Products/form.mvc.php" ?>
 
     </form>
 
