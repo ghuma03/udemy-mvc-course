@@ -45,8 +45,7 @@ class Products extends Controller {
     }
 
     public function new() {
-        echo $this->viewer->render("shared/header.php", array("title" => "New Product"));
-        echo $this->viewer->render("Products/new.php");
+        echo $this->viewer->render("Products/new.mvc.php");
     }
 
     public function create() {
@@ -62,8 +61,7 @@ class Products extends Controller {
         }
         else {
 
-            echo $this->viewer->render("shared/header.php", array("title" => "New Product"));
-            echo $this->viewer->render("Products/new.php", array("errors" => $this->model->getErrors(), "product" => $data));
+            echo $this->viewer->render("Products/new.mvc.php", array("errors" => $this->model->getErrors(), "product" => $data));
 
         }
     }
