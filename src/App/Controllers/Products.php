@@ -33,8 +33,8 @@ class Products extends Controller {
 
         $product = $this->getProduct($id);
 
-        echo $this->viewer->render("shared/header.php", array("title" => "Edit Product"));
-        echo $this->viewer->render("Products/edit.php", array("product" => $product));
+        
+        echo $this->viewer->render("Products/edit.mvc.php", array("product" => $product));
     }
 
     public function showPage(string $title, string $id, string $page) {
@@ -78,10 +78,7 @@ class Products extends Controller {
             exit;
         }
         else {
-
-            echo $this->viewer->render("shared/header.php", array("title" => "Edit Product"));
-            echo $this->viewer->render("Products/edit.php", array("errors" => $this->model->getErrors(), "product" => $product));
-
+            echo $this->viewer->render("Products/edit.mvc.php", array("errors" => $this->model->getErrors(), "product" => $product));
         }
     }
 
@@ -97,11 +94,8 @@ class Products extends Controller {
     }
 
     public function delete(string $id) {
-
         $product = $this->getProduct($id);
-
-        echo $this->viewer->render("shared/header.php", array("title" => "Delete product"));
-        echo $this->viewer->render("Products/delete.php", array("product" => $product));
+        echo $this->viewer->render("Products/delete.mvc.php", array("product" => $product));
     }
 
     public function destroy(string $id) {
