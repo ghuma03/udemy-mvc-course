@@ -39,8 +39,9 @@ class Dispatcher {
         $controller_handler = new ControllerRequestHandler($controller_object, $action, $args);
 
         $middleware = $this->container->get(\App\Middleware\ChangeResponseExample::class);
+        $middleware2 = $this->container->get(\App\Middleware\ChangeRequestExample::class);
 
-        $middleware_handler = new MiddlewareRequestHandler(array($middleware, clone $middleware, clone $middleware),
+        $middleware_handler = new MiddlewareRequestHandler(array($middleware2, $middleware, clone $middleware, clone $middleware),
                                                             $controller_handler);
 
         return $middleware_handler->handle($request);
