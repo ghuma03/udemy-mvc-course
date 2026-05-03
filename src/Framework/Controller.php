@@ -7,7 +7,12 @@ namespace Framework;
 abstract class Controller {
 
     protected Request $request;
+    protected Response $response;
     protected TemplateViewerInterface $viewer;
+
+    public function setResponse(Response $response): void {
+        $this->response = $response;
+    }
 
     public function setRequest(Request $request): void {
         $this->request = $request;
