@@ -20,11 +20,9 @@ class Products extends Controller {
 
         $products = $this->model->getData();
 
-        $this->response->setBody(
-            $this->viewer->render("Products/index.mvc.php", ["products" => $products, "total" => $this->model->getTotal()])
+        return $this->view(
+            "Products/index.mvc.php", array("products" => $products, "total" => $this->model->getTotal())
         );
-
-        return $this->response;
     }
 
     public function show(string $id) {

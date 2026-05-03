@@ -21,4 +21,9 @@ abstract class Controller {
     public function setViewer(TemplateViewerInterface $viewer): void {
         $this->viewer = $viewer;
     }
+
+    protected function view(string $template, array $data = array()): Response {
+        $this->response->setBody($this->viewer->render($template, $data));
+        return $this->response;
+    }
 }
