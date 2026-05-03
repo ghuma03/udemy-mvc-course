@@ -6,7 +6,7 @@ $router = new Framework\Router;
     $router->add("/product/{slug:[\w-]+}", array("controller" => "products", "action" => "show"));
 
     // $router->add("/{controller}/{id:\d+}/{action}");
-    $router->add("/{controller}/{id:\d+}/show", array("action" => "show"));
+    $router->add("/{controller}/{id:\d+}/show", array("action" => "show", "middleware" => "message|message"));
     $router->add("/{controller}/{id:\d+}/edit", array("action" => "edit"));
     $router->add("/{controller}/{id:\d+}/update", array("action" => "update"));
     $router->add("/{controller}/{id:\d+}/delete", array("action" => "delete"));

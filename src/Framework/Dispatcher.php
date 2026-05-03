@@ -12,10 +12,12 @@ class Dispatcher {
 
     private Router $router;
     private Container $container;
+    private array $middleweare_classes;
 
-    public function __construct(Router $router, Container $container) {
+    public function __construct(Router $router, Container $container, array $middleweare_classes) {
         $this->router = $router;
         $this->container = $container;
+        $this->middleweare_classes = $middleweare_classes;
     }
 
     public function handle(Request $request): Response {
@@ -38,13 +40,23 @@ class Dispatcher {
 
         $controller_handler = new ControllerRequestHandler($controller_object, $action, $args);
 
-        $middleware = $this->container->get(\App\Middleware\ChangeResponseExample::class);
-        $middleware2 = $this->container->get(\App\Middleware\ChangeRequestExample::class);
+        $middleware = $this->getMiddleware($params);
+        print_r($middleware);
+        die();
 
-        $middleware_handler = new MiddlewareRequestHandler(array($middleware2, $middleware, clone $middleware, clone $middleware),
-                                                            $controller_handler);
+        $middleware_handler = new MiddlewareRequestHandler($middleware, $controller_handler);
 
         return $middleware_handler->handle($request);
+    }
+
+    private function getMiddleware(array $params): array {
+
+        if ( ! array_key_exists("middleware", $params) ) {
+            return array();
+        }
+
+        $middleware = explode("|", $params["middleware"]);
+        return $middleware;
     }
 
     private function getActionArguments(string $controller, string $action, array $params): array {

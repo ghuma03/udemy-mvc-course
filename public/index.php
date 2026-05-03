@@ -16,8 +16,9 @@ set_exception_handler("Framework\ErrorHandler::handleException");
 
 $router = require ROOT_FOLDER . "/config/routes.php";
 $container = require ROOT_FOLDER . "/config/services.php";
+$middlewares = require ROOT_FOLDER . "/config/middleware.php";
 
-$dispatcher = new Framework\Dispatcher($router, $container);
+$dispatcher = new Framework\Dispatcher($router, $container, $middlewares);
 
 $request = Framework\Request::createFromGlobals();
 
