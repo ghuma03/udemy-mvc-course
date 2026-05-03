@@ -54,8 +54,7 @@ class Products extends Controller {
         );
 
         if ($this->model->insert($data)) {
-            header("Location:/products/{$this->model->getInsertID()}/show");
-            exit;
+            return $this->redirect("/products/{$this->model->getInsertID()}/show");
         }
         else {
             return $this->view("Products/new.mvc.php", array("errors" => $this->model->getErrors(), "product" => $data));
@@ -70,8 +69,7 @@ class Products extends Controller {
         $product["description"] = (empty($this->request->post["description"]))? null : $this->request->post["description"];
 
         if ($this->model->update($id, $product)) {
-            header("Location:/products/{$id}/show");
-            exit;
+            return $this->redirect("/products/{$id}/show");
         }
         else {
             return $this->view("Products/edit.mvc.php", array("errors" => $this->model->getErrors(), "product" => $product));
@@ -100,7 +98,6 @@ class Products extends Controller {
 
         $this->model->delete($id);
         
-        header("Location: /products/index");
-        exit;
+        return $this->redirect("/products/index");
     }
 }

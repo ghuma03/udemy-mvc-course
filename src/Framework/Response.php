@@ -7,6 +7,15 @@ namespace Framework;
 class Response {
 
     private string $body = "";
+    private array $headers = array();
+
+    public function redirect(string $url): void {
+        $this->addHeader("Location: $url");
+    }
+
+    public function addHeader(string $header): void {
+        $this->headers[] = $header;
+    }
 
     public function setBody($body): void {
         $this->body = $body;
@@ -17,6 +26,11 @@ class Response {
     }
 
     public function send(): void {
+
+        foreach ($this->headers as $header) {
+            header($header);
+        }
+
         echo $this->body;
     }
 
