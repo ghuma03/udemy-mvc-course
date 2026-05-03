@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Models\Product;
 use Framework\Exceptions\PageNotFoundException;
 use Framework\Controller;
+use Framework\Response;
 
 class Products extends Controller {
 
@@ -15,11 +16,15 @@ class Products extends Controller {
     public function __construct(Product $model) {
         $this->model = $model;
     }
-    public function index() {
+    public function index(): Response {
 
         $products = $this->model->getData();
 
-        echo $this->viewer->render("Products/index.mvc.php", array("products" => $products, "total" => $this->model->getTotal()));
+        $this->response->setBody(
+            $this->viewer->render("Products/index.mvc.php", ["products" => $products, "total" => $this->model->getTotal()])
+        );
+
+        return $this->response;
     }
 
     public function show(string $id) {
