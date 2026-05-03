@@ -12,12 +12,12 @@ class Dispatcher {
 
     private Router $router;
     private Container $container;
-    private array $middleweare_classes;
+    private array $middleware_classes;
 
-    public function __construct(Router $router, Container $container, array $middleweare_classes) {
+    public function __construct(Router $router, Container $container, array $middleware_classes) {
         $this->router = $router;
         $this->container = $container;
-        $this->middleweare_classes = $middleweare_classes;
+        $this->middleware_classes = $middleware_classes;
     }
 
     public function handle(Request $request): Response {
@@ -41,8 +41,6 @@ class Dispatcher {
         $controller_handler = new ControllerRequestHandler($controller_object, $action, $args);
 
         $middleware = $this->getMiddleware($params);
-        print_r($middleware);
-        die();
 
         $middleware_handler = new MiddlewareRequestHandler($middleware, $controller_handler);
 
@@ -56,6 +54,16 @@ class Dispatcher {
         }
 
         $middleware = explode("|", $params["middleware"]);
+
+        array_walk($middleware, function(&$value) {
+
+            if ( ! array_key_exists($value, $this->middleware_classes) ) {
+                throw new UnexpectedValueException("Middleware '$value' not found in config settings");
+            }
+
+            $value = $this->container->get($this->middleware_classes[$value]);
+        });
+
         return $middleware;
     }
 
