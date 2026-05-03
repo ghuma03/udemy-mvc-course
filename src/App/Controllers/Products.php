@@ -25,19 +25,14 @@ class Products extends Controller {
         );
     }
 
-    public function show(string $id) {
-
+    public function show(string $id): Response {
         $product = $this->getProduct($id);
-
-        echo $this->viewer->render("Products/show.mvc.php", array("product" => $product));
+        return $this->view("Products/show.mvc.php", array("product" => $product));
     }
 
-    public function edit(string $id) {
-
+    public function edit(string $id): Response {
         $product = $this->getProduct($id);
-
-        
-        echo $this->viewer->render("Products/edit.mvc.php", array("product" => $product));
+        return $this->view("Products/edit.mvc.php", array("product" => $product));
     }
 
     public function showPage(string $title, string $id, string $page) {
@@ -47,11 +42,11 @@ class Products extends Controller {
         die();
     }
 
-    public function new() {
-        echo $this->viewer->render("Products/new.mvc.php");
+    public function new(): Response {
+        return $this->view("Products/new.mvc.php");
     }
 
-    public function create() {
+    public function create(): Response {
 
         $data = array(
             "name" => $this->request->post["name"],
@@ -63,13 +58,11 @@ class Products extends Controller {
             exit;
         }
         else {
-
-            echo $this->viewer->render("Products/new.mvc.php", array("errors" => $this->model->getErrors(), "product" => $data));
-
+            return $this->view("Products/new.mvc.php", array("errors" => $this->model->getErrors(), "product" => $data));
         }
     }
 
-    public function update(string $id) {
+    public function update(string $id): Response {
 
         $product = $this->getProduct($id);
 
@@ -81,7 +74,7 @@ class Products extends Controller {
             exit;
         }
         else {
-            echo $this->viewer->render("Products/edit.mvc.php", array("errors" => $this->model->getErrors(), "product" => $product));
+            return $this->view("Products/edit.mvc.php", array("errors" => $this->model->getErrors(), "product" => $product));
         }
     }
 
@@ -96,12 +89,12 @@ class Products extends Controller {
         return $product;
     }
 
-    public function delete(string $id) {
+    public function delete(string $id): Response {
         $product = $this->getProduct($id);
-        echo $this->viewer->render("Products/delete.mvc.php", array("product" => $product));
+        return $this->view("Products/delete.mvc.php", array("product" => $product));
     }
 
-    public function destroy(string $id) {
+    public function destroy(string $id): Response {
 
         $product = $this->getProduct($id);
 
